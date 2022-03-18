@@ -1,0 +1,8 @@
+- benchmark:
+    cmd: source /opt/intel/openvino_2020.4.287/bin/setupvars.sh;cd /home/jaiber/rtejac/src-ai_modeling/WLC_KPI_AI_CODE;python3 {benchmark_application} -i 10 -t 30 -d Device
+    parameters:
+      benchmark_application: ai_max.py
+    
+    result: 'Average FPS'
+    tune:
+      - Device

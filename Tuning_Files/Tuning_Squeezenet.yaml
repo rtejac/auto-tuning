@@ -1,0 +1,119 @@
+- base:
+    DType: FP16
+    Api: sync
+    Batch: 8
+
+
+
+- app_params:
+    DType:
+      - type : list
+      - values : [FP16,FP32]
+    Api:
+      - type: list
+      - values : [sync,async]
+    Batch:
+      - type: list
+      - values: [1,4,8]
+
+
+- os_params:
+    swappiness:
+       - category : vm
+       - type : range
+       - min : 0
+       - max : 60
+       - cmd : "sysctl -w {}.{}={}"
+    compact_memory:
+       - category : vm
+       - type : range
+       - min : 0
+       - max : 1
+       - cmd: sysctl -w {}.{}={}
+    dirty_background_ratio:
+      - category : vm
+      - type : range
+      - min : 5
+      - max : 10
+      - cmd: sysctl -w {}.{}={}
+    dirty_ratio:
+        - category : vm
+        - type : range
+        - min : 40
+        - max : 60
+        - cmd: sysctl -w {}.{}={}
+    dirty_writeback_centisecs:
+        - category : vm
+        - type : range
+        - min : 3000
+        - max : 12000
+        - cmd: sysctl -w {}.{}={}
+    numa_balancing:
+        - category : kernel
+        - type : range
+        - min : 0
+        - max : 1
+        - cmd: sysctl -w {}.{}={}
+    numa_balancing_scan_period_min_ms:
+        - category : kernel
+        - type : range
+        - min : 500
+        - max : 5000
+        - cmd: sysctl -w {}.{}={}
+    numa_balancing_scan_delay_ms:
+        - category : kernel
+        - type : range
+        - min : 500
+        - max : 5000
+        - cmd: sysctl -w {}.{}={}
+    numa_balancing_scan_period_max_ms:
+        - category : kernel
+        - type : range
+        - min : 5000
+        - max : 60000
+        - cmd: sysctl -w {}.{}={}
+    sched_latency_ns:
+        - category : kernel
+        - type : range
+        - min : 5000000
+        - max : 50000000
+        - cmd: sysctl -w {}.{}={}
+    sched_migration_cost_ns:
+        - category : kernel
+        - type : range
+        - min : 0
+        - max : 1000000
+        - cmd: sysctl -w {}.{}={}
+    sched_min_granularity_ns:
+        - category : kernel
+        - type : range
+        - min : 1000000
+        - max : 10000000
+        - cmd: sysctl -w {}.{}={}
+    sched_wakeup_granularity_ns:
+        - category : kernel
+        - type : range
+        - min : 0
+        - max : 5000000
+        - cmd: sysctl -w {}.{}={}
+
+
+- hw_params:
+    TURBO_RATIO_LIMIT:
+      - type: range
+      - min : 60535
+      - max : 65535 
+      - reg : 0x1AD
+      - cmd : wrmsr -a {} {}
+    # IA32_CLOCK_MODULATION:
+    #    - type: range
+    #    - min : 16
+    #    - max : 31
+    #    - reg : 0x19A
+    #    - cmd : wrmsr -a {} {}
+    # IA32_ENERGY_PERF_BIAS:
+    #   - type: range
+    #   - min : 0
+    #   - max : 6
+    #   - reg : 0x1B0
+    #   - cmd : wrmsr -a {} {}

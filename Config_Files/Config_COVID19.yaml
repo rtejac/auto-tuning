@@ -1,0 +1,14 @@
+- benchmark:
+        cmd: source {setup_vars};cd {app_path};python3 main.py --person_detector {person_model} -d1 Device1 -m1_width 625 -m1_height 350 --width 640 --height 360 -n_s N_Src -n_c 1 -n_th 4 -i {input} -min_social_distance 70 -decode_device Decode --no_show
+        parameters:
+                setup_vars: /opt/intel/openvino_2021/bin/setupvars.sh
+                input: /home/jaiber/rtejac/Multi-Camera_Detection_of_Social_Distancing/mcss-covid19/resources/station.mp4
+                app_path: /home/jaiber/rtejac/Multi-Camera_Detection_of_Social_Distancing/mcss-covid19/application
+                person_model: ../intel/person-detection-retail-0013/DType/person-detection-retail-0013.xml
+        tune:
+                - Device1
+                - DType
+                - Decode
+                - N_Src
+
+        result: 'Frames processed per second:'

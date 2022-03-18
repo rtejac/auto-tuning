@@ -1,0 +1,22 @@
+
+- model_optimizer:
+    cmd: python3 /opt/intel/openvino/deployment_tools/model_optimizer/mo_caffe.py --input_model {input_model_for_mo} --output_dir {output_model_for_mo} --data_type DType
+    parameters:
+      input_model_for_mo: /home/jaiber/rtejac/squeezenet/squeezenet1.1.caffemodel
+      output_model_for_mo: /home/jaiber/rtejac/squeezenet
+    tune:
+      - DType
+
+
+- benchmark:
+    cmd: source /opt/intel/openvino/bin/setupvars.sh;python3 {benchmark_application} -i {input_image} -m {input_model} -api Api -d CPU -b Batch
+    parameters:
+      benchmark_application: /opt/intel/openvino/deployment_tools/tools/benchmark_tool/benchmark_app.py
+      input_image: /opt/intel/openvino/deployment_tools/demo/car.png
+      input_model: /home/jaiber/rtejac/squeezenet/squeezenet1.1.xml
+
+    result: 'Throughput:'
+    tune:
+      - Api
+      - Batch
+
